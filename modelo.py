@@ -1,13 +1,10 @@
 import sqlite3
-import re
 from tkinter import messagebox, END
-from tkinter import *
-
 
 # ##############################################
 # MODELO
 # ##############################################
-# 
+
 def conexion():
     con = sqlite3.connect("ferreteria.db")
     return con
@@ -25,21 +22,11 @@ def crear_tabla():
             forma_pago varchar(20),
             tipo_cliente varchar(20))
             """
-         
     cursor.execute(sql)
     con.commit()
 
 
-try:
-    conexion()
-    crear_tabla()
-except:
-    print("Error en la tabla")
-
-
-
-
-def agregar(producto, cantidad, precio_unit, precio_total, forma_pago, tipo_cliente, tree):
+def agregar(producto, cantidad, precio_unit, precio_total, forma_pago, tipo_cliente, tree, limpiar, actualizar_treeview):
     con = conexion()
     cursor = con.cursor()
     data = (producto, cantidad, precio_unit, precio_total, forma_pago, tipo_cliente)
@@ -48,11 +35,7 @@ def agregar(producto, cantidad, precio_unit, precio_total, forma_pago, tipo_clie
     con.commit()
     messagebox.showinfo("Venta", "Venta registrada")
     actualizar_treeview(tree)
-#    limpiar()
-    producto.set("")
-    cantidad.set("")
-    precio_unit.set("")
-    precio_total.set("")
+    limpiar()
 
 
 def borrar(tree):
@@ -86,11 +69,10 @@ def actualizar_treeview(tree):
 
     resultado = datos.fetchall()
     for fila in resultado:
-        print(fila)
         tree.insert("", 0, text=fila[0], values=(fila[1], fila[2], fila[3], fila[4], fila[5], fila[6]))
 
 
-def update(id, producto, cantidad, precio_unit, precio_total, forma_pago, tipo_cliente, tree):
+def update(id, producto, cantidad, precio_unit, precio_total, forma_pago, tipo_cliente, tree, limpiar, actualizar_treeview):
     if not id:
         messagebox.showinfo("MODIFICAR", "Debe escribir un ID válido para modificar.")
         return
@@ -104,21 +86,8 @@ def update(id, producto, cantidad, precio_unit, precio_total, forma_pago, tipo_c
     con.close()
     messagebox.showinfo("Información", "Venta modificada")
     actualizar_treeview(tree)
- #   limpiar()
+    limpiar()
 
-
-#def limpiar():
-#    producto.set("")
-#    cantidad.set("")
-#    precio_unit.set("")
-#    precio_total.set("") 
-#    modificar.set("")
-    #entry_forma_pago.delete(0, END)
-    #entry_tipo_cliente.delete(0, END)
-
-#LA FUNCION CARGAR_DATOS FUNCIONA COMO CONSULTA
-# YA QUE SE UTILIZA PARA CARGAR LOS DATOS EXISTENTES
-# EN LA BASE DE DATOS
 def cargar_datos(tree):
     for item in tree.get_children():
         tree.delete(item)
@@ -131,3 +100,10 @@ def cargar_datos(tree):
     for row in rows:
         tree.insert("", END, text=row[0], values=row[1:])
     con.close()
+
+# Inicialización del modelo
+try:
+    conexion()
+    crear_tabla()
+except:
+    print("Error en la tabla")

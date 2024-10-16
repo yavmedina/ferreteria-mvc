@@ -1,8 +1,6 @@
 from tkinter import *
-from tkinter import messagebox
-from tkinter import ttk
-from modelo import *
-
+from tkinter import ttk, END
+from modelo import agregar, borrar, update, cargar_datos, actualizar_treeview
 
 # ##############################################
 # VISTA VENTANA PRINCIPAL
@@ -37,8 +35,7 @@ forma_pago.grid(row=5, column=0, sticky=E, pady=2)
 tipo_cliente = Label(principal, text="TIPO DE CLIENTE")
 tipo_cliente.grid(row=6, column=0, sticky=E, pady=(2, 20))
 
-####################################
-
+# Variables
 vid = StringVar()
 vproducto = StringVar()
 vcantidad = StringVar()
@@ -47,13 +44,7 @@ vprecio_total = StringVar()
 vforma_pago = StringVar()
 vtipo_cliente = StringVar()
 
-################################################
-# FUNCIONES VARIAS - CALCULAR PRECIO TOTAL EN TIEMPO REAL
-# La funcion TRACE de TKINTER está explicado
-# en el capitulo 10, del libro Building Modern GUIs with Tkinter and Python - Saurabh Chandrakar
-# en el capítulo 9, del libro Python A Fondo - Oscar Ramires Jimenéz
-################################################
-
+# Calcular Precio Total
 def calcular_precio_total(*args):
     try:
         cantidad = float(vcantidad.get())
@@ -63,12 +54,10 @@ def calcular_precio_total(*args):
     except ValueError:
         vprecio_total.set("0.00")
 
-
 vcantidad.trace("w", calcular_precio_total)
 vprecio_unit.trace("w", calcular_precio_total)
 
-####################################
-# INPUTS
+# Inputs
 entry_producto = Entry(principal, textvariable=vproducto)
 entry_producto.grid(row=1, column=1)
 
@@ -92,10 +81,7 @@ combo_tipo_cliente.set("Tipo de Cliente")
 entry_modificar = Entry(principal, textvariable=vid, justify="center", width="10")
 entry_modificar.grid(row=2, column=3, padx=(2, 0))
 
-#####################################
-# TREEVIEW
-#####################################
-
+# Treeview
 tree = ttk.Treeview(principal)
 tree["columns"] = ("col1", "col2", "col3", "col4", "col5", "col6")
 tree.column("#0", width=25, minwidth=25, anchor=W)
@@ -115,22 +101,31 @@ tree.heading("col6", text="TIPO DE CLIENTE")
 
 tree.grid(column=0, row=10, columnspan=6, padx=(25, 0))
 
+# Función limpiar
+def limpiar():
+    vid.set("") #si es que se ingresó un ID para modificar
+    vproducto.set("")
+    vcantidad.set("")
+    vprecio_unit.set("")
+    vprecio_total.set("0.00") 
+    vforma_pago.set("Forma de Pago")
+    vtipo_cliente.set("Tipo de Cliente")
 
-##################################
-# BOTONES DE CONTROL
-##################################
-
-boton_agregar = Button(principal, text="Registrar Venta",width=20, command=lambda:agregar(vproducto.get(), vcantidad.get(), vprecio_unit.get(), vprecio_total.get(), vforma_pago.get(), vtipo_cliente.get(), tree))
+# Botones
+boton_agregar = Button(principal, text="Registrar Venta", width=20, command=lambda:agregar(vproducto.get(), vcantidad.get(), vprecio_unit.get(), vprecio_total.get(), vforma_pago.get(), vtipo_cliente.get(), tree, limpiar, actualizar_treeview))
 boton_agregar.grid(row=1, column=2)
 
-boton_modificar = Button(principal, text="Modificar por ID", width=20, command=lambda:update(vid.get(), vproducto.get(), vcantidad.get(), vprecio_unit.get(), vprecio_total.get(), vforma_pago.get(), vtipo_cliente.get(), tree))
+boton_modificar = Button(principal, text="Modificar por ID", width=20, command=lambda:update(vid.get(), vproducto.get(), vcantidad.get(), vprecio_unit.get(), vprecio_total.get(), vforma_pago.get(), vtipo_cliente.get(), tree, limpiar, actualizar_treeview))
 boton_modificar.grid(row=2, column=2)
 
-boton_eliminar = Button(principal, text="Eliminar",width=20, command=lambda:borrar(tree))
+boton_eliminar = Button(principal, text="Eliminar", width=20, command=lambda:borrar(tree))
 boton_eliminar.grid(row=3, column=2)
 
-boton_limpiar = Button(principal, text="Limpiar datos", width=20, command= lambda:limpiar())
+boton_limpiar = Button(principal, text="Limpiar datos", width=20, command=limpiar)
 boton_limpiar.grid(row=4, column=2)
 
+# Cargar los datos en el Treeview al iniciar
 cargar_datos(tree)
+
+# Iniciar el loop principal de la interfaz
 principal.mainloop()
