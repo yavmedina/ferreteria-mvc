@@ -33,9 +33,9 @@ def agregar(producto, cantidad, precio_unit, precio_total, forma_pago, tipo_clie
     sql = "INSERT INTO ventas(producto, cantidad, precio_unit, precio_total, forma_pago, tipo_cliente) VALUES (?, ?, ?, ?, ?, ?)"
     cursor.execute(sql, data)
     con.commit()
-    messagebox.showinfo("Venta", "Venta registrada")
     actualizar_treeview(tree)
     limpiar()
+    return ("Venta", "Venta registrada")
 
 
 def borrar(tree):

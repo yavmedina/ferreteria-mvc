@@ -1,5 +1,5 @@
 from tkinter import *
-from tkinter import ttk, END
+from tkinter import ttk, END, messagebox
 from modelo import agregar, borrar, update, cargar_datos, actualizar_treeview
 
 # ##############################################
@@ -101,9 +101,13 @@ tree.heading("col6", text="TIPO DE CLIENTE")
 
 tree.grid(column=0, row=10, columnspan=6, padx=(25, 0))
 
+#Vista (de) Agregar. Para no usar funciones de tkinter en el modelo
+def vista_agregar():
+    titulo, mensaje = agregar(vproducto.get(), vcantidad.get(), vprecio_unit.get(), vprecio_total.get(), vforma_pago.get(), vtipo_cliente.get(), tree, limpiar, actualizar_treeview)
+    messagebox.showinfo(titulo, mensaje)
+
 # Función limpiar
 def limpiar():
-    vid.set("") #si es que se ingresó un ID para modificar
     vproducto.set("")
     vcantidad.set("")
     vprecio_unit.set("")
@@ -112,7 +116,7 @@ def limpiar():
     vtipo_cliente.set("Tipo de Cliente")
 
 # Botones
-boton_agregar = Button(principal, text="Registrar Venta", width=20, command=lambda:agregar(vproducto.get(), vcantidad.get(), vprecio_unit.get(), vprecio_total.get(), vforma_pago.get(), vtipo_cliente.get(), tree, limpiar, actualizar_treeview))
+boton_agregar = Button(principal, text="Registrar Venta", width=20, command=lambda:vista_agregar())
 boton_agregar.grid(row=1, column=2)
 
 boton_modificar = Button(principal, text="Modificar por ID", width=20, command=lambda:update(vid.get(), vproducto.get(), vcantidad.get(), vprecio_unit.get(), vprecio_total.get(), vforma_pago.get(), vtipo_cliente.get(), tree, limpiar, actualizar_treeview))
