@@ -1,6 +1,6 @@
 from tkinter import *
-from tkinter import ttk, END, messagebox
-from modelo import agregar, borrar, update, cargar_datos, actualizar_treeview
+from tkinter import END, messagebox, ttk
+from modelo import actualizar_treeview, agregar, borrar, cargar_datos, verificar_id, update 
 
 # ##############################################
 # VISTA VENTANA PRINCIPAL
@@ -106,8 +106,29 @@ def vista_agregar():
     titulo, mensaje = agregar(vproducto.get(), vcantidad.get(), vprecio_unit.get(), vprecio_total.get(), vforma_pago.get(), vtipo_cliente.get(), tree, limpiar, actualizar_treeview)
     messagebox.showinfo(titulo, mensaje)
 
+#Vista (de) Borrar. Pana no usar funciones de tkinter en el modelo
+def vista_borrar():
+    confirma = messagebox.askquestion("ADVERTENCIA", "¿Está seguro qué desea borrar el registro?")
+    if confirma == 'no':
+        return
+    titulo, mensaje = borrar(tree)
+
+def vista_update():
+    id = vid.get()
+    if not id:
+        messagebox.showinfo("MODIFICAR", "Debe escribir un ID válido para modificar.")
+        return
+    
+    if not verificar_id(id):
+        messagebox.showinfo("MODIFICAR", "El ID ingresado no existe en la base de datos.")
+        return
+
+    titulo, mensaje = update(vid.get(), vproducto.get(), vcantidad.get(), vprecio_unit.get(), vprecio_total.get(), vforma_pago.get(), vtipo_cliente.get(), tree, limpiar, actualizar_treeview)
+    messagebox.showinfo(titulo, mensaje)
+
 # Función limpiar
 def limpiar():
+    vid.set("")
     vproducto.set("")
     vcantidad.set("")
     vprecio_unit.set("")
@@ -119,10 +140,10 @@ def limpiar():
 boton_agregar = Button(principal, text="Registrar Venta", width=20, command=lambda:vista_agregar())
 boton_agregar.grid(row=1, column=2)
 
-boton_modificar = Button(principal, text="Modificar por ID", width=20, command=lambda:update(vid.get(), vproducto.get(), vcantidad.get(), vprecio_unit.get(), vprecio_total.get(), vforma_pago.get(), vtipo_cliente.get(), tree, limpiar, actualizar_treeview))
+boton_modificar = Button(principal, text="Modificar por ID", width=20, command=lambda:vista_update())
 boton_modificar.grid(row=2, column=2)
 
-boton_eliminar = Button(principal, text="Eliminar", width=20, command=lambda:borrar(tree))
+boton_eliminar = Button(principal, text="Eliminar", width=20, command=lambda:vista_borrar())
 boton_eliminar.grid(row=3, column=2)
 
 boton_limpiar = Button(principal, text="Limpiar datos", width=20, command=limpiar)

@@ -1,5 +1,4 @@
 import sqlite3
-from tkinter import messagebox, END
 
 # ##############################################
 # MODELO
@@ -39,10 +38,6 @@ def agregar(producto, cantidad, precio_unit, precio_total, forma_pago, tipo_clie
 
 
 def borrar(tree):
-    confirma = messagebox.askquestion("ADVERTENCIA", "¿Está seguro qué desea borrar el registro?")
-    if confirma == 'no':
-        return
-
     valor = tree.selection()
     item = tree.item(valor)
     id = item['text']
@@ -54,7 +49,7 @@ def borrar(tree):
     cursor.execute(sql, data)
     con.commit()
     tree.delete(valor)
-    messagebox.showinfo("Venta", "Registro borrado")
+    return("Venta", "Registro borrado")
 
 
 def actualizar_treeview(tree):
@@ -71,12 +66,16 @@ def actualizar_treeview(tree):
     for fila in resultado:
         tree.insert("", 0, text=fila[0], values=(fila[1], fila[2], fila[3], fila[4], fila[5], fila[6]))
 
+def verificar_id(id):
+    con = conexion()
+    cursor = con.cursor()
+    sql = "SELECT COUNT(*) FROM ventas WHERE id = ?;"
+    cursor.execute(sql, id)
+    id_ok = cursor.fetchone()[0] > 0
+    con.close()
+    return id_ok
 
 def update(id, producto, cantidad, precio_unit, precio_total, forma_pago, tipo_cliente, tree, limpiar, actualizar_treeview):
-    if not id:
-        messagebox.showinfo("MODIFICAR", "Debe escribir un ID válido para modificar.")
-        return
-
     con = conexion()
     cursor = con.cursor()
     data = (producto, cantidad, precio_unit, precio_total, forma_pago, tipo_cliente, id)
@@ -84,9 +83,9 @@ def update(id, producto, cantidad, precio_unit, precio_total, forma_pago, tipo_c
     cursor.execute(sql, data)
     con.commit()
     con.close()
-    messagebox.showinfo("Información", "Venta modificada")
     actualizar_treeview(tree)
     limpiar()
+    return("Información", "Venta modificada")
 
 def cargar_datos(tree):
     for item in tree.get_children():
@@ -98,7 +97,7 @@ def cargar_datos(tree):
     rows = cursor.fetchall()
     
     for row in rows:
-        tree.insert("", END, text=row[0], values=row[1:])
+        tree.insert("", len(tree.get_children()), text=row[0], values=row[1:])
     con.close()
 
 # Inicialización del modelo
