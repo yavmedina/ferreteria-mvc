@@ -1,6 +1,9 @@
 from tkinter import *
 from tkinter import END, messagebox, ttk
-from modelo import actualizar_treeview, agregar, borrar, cargar_datos, verificar_id, update 
+from modelo import actualizar_treeview, agregar, borrar, cargar_datos, verificar_id, update
+import os
+BASE_DIR = os.path.dirname((os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(BASE_DIR)
 
 # ##############################################
 # VISTA VENTANA PRINCIPAL
