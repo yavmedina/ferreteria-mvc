@@ -1,5 +1,6 @@
 from tkinter import Tk
 import vista
+from vista import vista_principal
 
 if __name__ == "__main__":
     root_tk = Tk()

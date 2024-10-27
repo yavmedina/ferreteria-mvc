@@ -8,11 +8,17 @@ from modelo import actualizar_treeview, agregar, borrar, cargar_datos, verificar
 # ##############################################
 # VISTA VENTANA PRINCIPAL
 # ##############################################
-def vista_principal(principal):
+def ventanaCentrada(ventana, ancho, alto):
+    screen_width = ventana.winfo_screenwidth()
+    screen_height = ventana.winfo_screenheight()
+    posX = (screen_width // 2) - (ancho // 2)
+    posY = (screen_height // 2) - (alto // 2)
+    ventana.geometry(f"{ancho}x{alto}+{int(posX)}+{int(posY)}")
 
+def vista_principal(principal):
     # principal = Tk()
     principal.title("FERRETERIA - TERMINAL DE VENTA")
-    principal.geometry("700x500")
+    ventanaCentrada(principal, 900, 500)
 
     titulo = Label(principal, text="FERRETERIA - TERMINAL DE VENTAS", bg="lightgrey")
     titulo.grid(row=0, column=0, columnspan=7, sticky=W+E)
