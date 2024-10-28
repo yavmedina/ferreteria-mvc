@@ -100,7 +100,7 @@ def cargar_datos(tree):
         tree.insert("", len(tree.get_children()), text=row[0], values=row[1:])
     con.close()
 
-# Inicialización del modelo
+# Inicialización del modelo Ventas
 try:
     conexion()
     crear_tabla()
