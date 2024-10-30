@@ -5,6 +5,7 @@ from venta_modelo import actualizar_treeview, agregar, borrar, cargar_datos, ver
 from vista_botones import *
 from PIL import Image, ImageTk
 import venta_vista
+import venta_listado
 import clientes_vista
 import nosotros
 
@@ -13,6 +14,7 @@ class MenuPrincipal:
     def __init__(self, window):
         self.window = window
         self.ventanaCentrada(1100, 650)  # Centrar ventana
+        self.imagen = PhotoImage(file="images/ferreteria.png")
         self.vista_principal()  # Crear la interfaz
 
     def ventanaCentrada(self, ancho, alto):
@@ -28,14 +30,19 @@ class MenuPrincipal:
         #nueva_ventana.geometry("900x800")      # Tamaño de la nueva ventana
         venta_vista.MenuPrincipal(nueva_ventana)    # Lla
 
+    def boton_ventas_realizadas(self):
+        nueva_ventana = Toplevel(self.window)
+        venta_listado.VentasListado(nueva_ventana)
+
+    def boton_nosotros(self):
+        nueva_ventana = Toplevel(self.window)
+        nosotros.Nosotros(nueva_ventana)
+
     def boton_clientes(self):
         nueva_ventana = Toplevel(self.window)  # Crear nueva ventana Toplevel
         #nueva_ventana.geometry("900x800")      # Tamaño de la nueva ventana
         clientes_vista.MenuClientes(nueva_ventana)    # Lla
 
-    def boton_nosotros(self):
-        nueva_ventana = Toplevel(self.window)
-        nosotros.Nosotros(nueva_ventana)
 
 
     def boton_prueba_vista(self):
@@ -55,6 +62,9 @@ class MenuPrincipal:
         button_font = Font(family="Helvetica", size=16, weight="bold")
         image_xy = 64
 
+        logo_ferreteria = Label(self.window, image=self.imagen)
+        logo_ferreteria.place(x=690, y=340)
+
         # Cargar imágenes
         icon_venta = ImageTk.PhotoImage(Image.open("images/icon_ventas.png").resize((image_xy, image_xy)))
         icon_v_realizada = ImageTk.PhotoImage(Image.open("images/icon_v_realizada.png").resize((image_xy, image_xy)))
@@ -64,7 +74,7 @@ class MenuPrincipal:
         # Crear botones con imágenes y texto
         Button(self.window, text="Registrar\nVenta", image=icon_venta, compound="top", font=button_font, command=self.boton_registrar_venta).place(x=x1, y=y1, width=b_width, height=b_height)
 
-        Button(self.window, text="Ventas\nRealizadas", image=icon_v_realizada, compound="top", font=button_font).place(x=(x1 + b_width + b_padX), y=y1, width=b_width, height=b_height)
+        Button(self.window, text="Ventas\nRealizadas", image=icon_v_realizada, compound="top", font=button_font, command=self.boton_ventas_realizadas).place(x=(x1 + b_width + b_padX), y=y1, width=b_width, height=b_height)
 
         Button(self.window, text="Nosotros...", image=icon_nosotros, compound="top", font=button_font, command=self.boton_nosotros).place(x=(x1 + 2 * (b_width + b_padX)), y=y1, width=b_width, height=b_height)
         
