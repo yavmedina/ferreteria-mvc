@@ -30,9 +30,9 @@ class MenuPrincipal:
         #nueva_ventana.geometry("900x800")      # Tamaño de la nueva ventana
         venta_vista.MenuPrincipal(nueva_ventana)    # Lla
 
-    def boton_ventas_realizadas(self):
-        nueva_ventana = Toplevel(self.window)
-        venta_listado.VentasListado(nueva_ventana)
+    #def boton_ventas_realizadas(self):
+    #    nueva_ventana = Toplevel(self.window)
+    #git    venta_listado.VentasListado(nueva_ventana)
 
     def boton_nosotros(self):
         nueva_ventana = Toplevel(self.window)
