@@ -13,7 +13,7 @@ class MenuPrincipal:
     
     def __init__(self, window):
         self.window = window
-        self.ventanaCentrada(1100, 650)  # Centrar ventana
+        self.ventanaCentrada(1030, 420)  # Centrar ventana
         self.imagen = PhotoImage(file="images/ferreteria.png")
         self.vista_principal()  # Crear la interfaz
 
@@ -44,7 +44,6 @@ class MenuPrincipal:
         clientes_vista.MenuClientes(nueva_ventana)    # Lla
 
 
-
     def boton_prueba_vista(self):
         pass
         #nueva_ventana = Toplevel(self.window)  # Crear nueva ventana Toplevel
@@ -63,7 +62,7 @@ class MenuPrincipal:
         image_xy = 64
 
         logo_ferreteria = Label(self.window, image=self.imagen)
-        logo_ferreteria.place(x=690, y=340)
+        logo_ferreteria.place(x=610, y=140)
 
         # Cargar imágenes
         icon_venta = ImageTk.PhotoImage(Image.open("images/icon_ventas.png").resize((image_xy, image_xy)))
@@ -72,13 +71,16 @@ class MenuPrincipal:
         icon_clientes = ImageTk.PhotoImage(Image.open("images/icon_clientes.png").resize((image_xy, image_xy)))
 
         # Crear botones con imágenes y texto
+        # La posicion y tamaño de los botones está en el archivo vista_botones.py
         Button(self.window, text="Registrar\nVenta", image=icon_venta, compound="top", font=button_font, command=self.boton_registrar_venta).place(x=x1, y=y1, width=b_width, height=b_height)
 
-        Button(self.window, text="Ventas\nRealizadas", image=icon_v_realizada, compound="top", font=button_font, command=self.boton_ventas_realizadas).place(x=(x1 + b_width + b_padX), y=y1, width=b_width, height=b_height)
+        #Button(self.window, text="Ventas\nRealizadas", image=icon_v_realizada, compound="top", font=button_font, command=self.boton_ventas_realizadas).place(x=x1, y=(y1 + b_height + b_padY), width=b_width, height=b_height)
+        #place(x=(x1 + b_width + b_padX), y=y1, width=b_width, height=b_height)
 
         Button(self.window, text="Nosotros...", image=icon_nosotros, compound="top", font=button_font, command=self.boton_nosotros).place(x=(x1 + 2 * (b_width + b_padX)), y=y1, width=b_width, height=b_height)
         
-        Button(self.window, text="Clientes", image=icon_clientes, compound="top", font=button_font, command=self.boton_clientes).place(x=x1, y=(y1 + b_height + b_padY), width=b_width, height=b_height)
+        Button(self.window, text="Clientes", image=icon_clientes, compound="top", font=button_font, command=self.boton_clientes).place(x=(x1 + b_width + b_padX), y=y1, width=b_width, height=b_height)
+        #place(x=x1, y=(y1 + b_height + b_padY), width=b_width, height=b_height)
 
         # Mantener las referencias a las imágenes
         self.icon_venta = icon_venta
