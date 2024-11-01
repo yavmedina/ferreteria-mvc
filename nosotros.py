@@ -10,7 +10,7 @@ from PIL import Image, ImageTk
 class Nosotros:
     def __init__(self, window):
         self.window = window
-        self.ventanaCentrada(800, 500)  # Centrar ventana
+        self.ventanaCentrada(600, 300)  # Centrar ventana
         self.imagen = PhotoImage(file="images/nosotros.png")
         self.vista_nosotros()  # Crear la interfaz
 
@@ -28,7 +28,7 @@ class Nosotros:
         subtitulo_font = Font(family="Helvetica", size=14, weight="bold")
 
         titulo = Label(self.window, text="NOSOTROS", font=titulo_font, bd="10", bg=bgcolor)
-        titulo.place(x=1, y=5, width=800, height=40)
+        titulo.place(x=1, y=5, width=600, height=40)
         titulo.config(bg=bgcolor)
 
         imagen_nosotros = Label(self.window, image=self.imagen)
@@ -42,19 +42,19 @@ class Nosotros:
         espacio_3.grid(row=3)
 
         integrante1 = Label(self.window, text="Javier Medina", font=subtitulo_font, bd="10")
-        integrante1.place(x=20, y=100, width=400, height=40)
+        integrante1.place(x=20, y=85, width=400, height=40)
         
         integrante2 = Label(self.window, text="Nicolás Sampayo", font=subtitulo_font, bd="10")
-        integrante2.place(x=20, y=150, width=400, height=40)
+        integrante2.place(x=20, y=115, width=400, height=40)
 
         integrante3 = Label(self.window, text="Lautaro Barrionuevo", font=subtitulo_font, bd="10")
-        integrante3.place(x=20, y=200, width=400, height=40)
+        integrante3.place(x=20, y=145, width=400, height=40)
 
         integrante4 = Label(self.window, text="Eliana Guattarini", font=subtitulo_font, bd="10")
-        integrante4.place(x=20, y=250, width=400, height=40)
+        integrante4.place(x=20, y=175, width=400, height=40)
         
         integrante5 = Label(self.window, text="Federico Escobedo", font=subtitulo_font, bd="10")
-        integrante5.place(x=20, y=300, width=400, height=40)
+        integrante5.place(x=20, y=205, width=400, height=40)
 
 if __name__ == "__main__":
     nos_tk = Tk()
