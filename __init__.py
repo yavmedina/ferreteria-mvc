@@ -5,7 +5,7 @@ from venta_modelo import actualizar_treeview, agregar, borrar, cargar_datos, ver
 from vista_botones import *
 from PIL import Image, ImageTk
 import venta_vista
-import venta_listado
+#import venta_listado
 import clientes_vista
 import nosotros
 
